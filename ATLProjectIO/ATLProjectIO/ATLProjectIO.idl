@@ -1,0 +1,59 @@
+// ATLProjectIO.idl : ATLProjectIO 的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(ATLProjectIO.tlb)和封送处理代码。
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(a817e7a2-43fa-11d0-9e44-00aa00b6770a),
+	dual,	
+	pointer_default(unique)
+]
+interface IComponentRegistrar : IDispatch
+{
+	[id(1)]	HRESULT Attach([in] BSTR bstrPath);
+	[id(2)]	HRESULT RegisterAll();
+	[id(3)]	HRESULT UnregisterAll();
+	[id(4)]	HRESULT GetComponents([out] SAFEARRAY(BSTR)* pbstrCLSIDs, [out] SAFEARRAY(BSTR)* pbstrDescriptions);
+	[id(5)]	HRESULT RegisterComponent([in] BSTR bstrCLSID);
+	[id(6)] HRESULT UnregisterComponent([in] BSTR bstrCLSID);
+};
+
+[
+	object,
+	uuid(43727570-2376-4ACD-978B-02F39ABCB481),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface ICInterfaceIO : IDispatch{
+	[id(1)] HRESULT Test([in] BSTR Arg1, [in] BSTR Arg2, [out] BSTR* Output, [out, retval] VARIANT_BOOL* Rst);
+};
+[
+	uuid(78D2A4F7-61C2-4B8D-9531-464972CF31A1),
+	version(1.0),
+	custom(a817e7a1-43fa-11d0-9e44-00aa00b6770a,"{F2899274-BD7F-49E9-9D98-307F8BB09769}")
+]
+library ATLProjectIOLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(F2899274-BD7F-49E9-9D98-307F8BB09769)		
+	]
+	coclass CompReg
+	{
+		[default] interface IComponentRegistrar;
+	};
+	[
+		uuid(52E4B80B-661B-45E1-B5A1-AF4334E17757)		
+	]
+	coclass CInterfaceIO
+	{
+		[default] interface ICInterfaceIO;
+	};
+};
+
