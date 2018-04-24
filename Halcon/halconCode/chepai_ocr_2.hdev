@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'E:/Code/MyCode_cpp/Halcon/halconCode/车牌.png')</l>
+<l>rgb1_to_gray (Image, GrayImage)</l>
+<l>invert_image (GrayImage, ImageInvert)</l>
+<l>threshold (GrayImage, Regions, 186, 229)</l>
+<l>opening_rectangle1 (Regions, RegionOpening, 4, 4)</l>
+<l>connection (Regions, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, ['area','width','height'], 'and', [0,25.75,90.18], [1790.42,52.1,200])</l>
+<l>sort_region (SelectedRegions, SortedRegions, 'character', 'true', 'column')</l>
+<l>read_ocr_class_mlp ('Document_0-9A-Z_Rej.omc', OCRHandle)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions, ImageInvert, OCRHandle, Class, Confidence)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
