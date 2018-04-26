@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Chepai1, 'D:/Study/Code/MyCode_cpp/Halcon/halconCode/车牌.png')</l>
+<l>dev_close_window ()</l>
+<l>dev_open_window (0, 0, 512, 512, 'black', WindowHandle)</l>
+<c></c>
+<c></c>
+<c></c>
+<l>decompose3 (Chepai1, Image1, Image2, Image3)</l>
+<l>trans_from_rgb (Image1, Image1, Image1, ImageResult1, ImageResult2, ImageResult3, 'hsv')</l>
+<c></c>
+<l>threshold (ImageResult3, Regions2, 0, 28)</l>
+<c></c>
+<l>fill_up (Regions2, RegionFillUp)</l>
+<l>shape_trans (RegionFillUp, RegionTrans, 'rectangle2')</l>
+<c></c>
+<c></c>
+<l>orientation_region (RegionTrans, Phi)</l>
+<l>area_center (RegionTrans, Area, Row, Column)</l>
+<l>vector_angle_to_rigid (Row, Column, Phi, Row, Column, 0, HomMat2D)</l>
+<l>affine_trans_image (Chepai1, ImageAffinTrans, HomMat2D, 'constant', 'false')</l>
+<l>affine_trans_region (RegionTrans, RegionAffineTrans, HomMat2D, 'nearest_neighbor')</l>
+<l>reduce_domain (ImageAffinTrans, RegionAffineTrans, ImageReduced)</l>
+<c></c>
+<l>invert_image (ImageReduced, ImageInvert)</l>
+<l>rgb1_to_gray (ImageReduced, GrayImage)</l>
+<l>threshold (GrayImage, Regions, 168, 277)</l>
+<l>connection (Regions, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, ['area','width','height'], 'and', [948.62,0,87.52], [2000.01,56.42,200])</l>
+<l>sort_region (SelectedRegions, SortedRegions, 'first_point', 'true', 'column')</l>
+<l>read_ocr_class_mlp ('Document_0-9A-Z_NoRej.omc', OCRHandle)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions, ImageInvert, OCRHandle, Class, Confidence)</l>
+<c></c>
+<l>disp_message (WindowHandle, Class, 'window', 0, 0, 'blue', 'true')</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

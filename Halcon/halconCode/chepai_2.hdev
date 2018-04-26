@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>*采集</c>
+<l>read_image (Image2, 'D:/Study/Code/MyCode_cpp/Halcon/halconCode/车牌_2.jpg')</l>
+<c></c>
+<l>dev_close_window ()</l>
+<l>dev_open_window (0, 0, 512, 512, 'black', WindowHandle)</l>
+<c>*车牌定位及矫正</c>
+<l>decompose3 (Image2, Image1, Image21, Image3)</l>
+<l>trans_from_rgb (Image1, Image1, Image1, ImageResult1, ImageResult2, ImageResult3, 'hsv')</l>
+<l>threshold (ImageResult3, Regions, 0, 90)</l>
+<l>connection (Regions, ConnectedRegions)</l>
+<l>fill_up (ConnectedRegions, RegionFillUp)</l>
+<l>select_shape (RegionFillUp, SelectedRegions2, 'area', 'and', 20168.9, 28611.6)</l>
+<c></c>
+<l>dilation_rectangle1 (SelectedRegions2, RegionDilation, 11, 11)</l>
+<l>orientation_region (RegionDilation, Phi)</l>
+<l>area_center (RegionDilation, Area, Row, Column)</l>
+<l>vector_angle_to_rigid (Row, Column, Phi, Row, Column, rad(180), HomMat2D)</l>
+<c></c>
+<l>affine_trans_image (Image2, ImageAffinTrans, HomMat2D, 'constant', 'false')</l>
+<l>affine_trans_region (RegionDilation, RegionAffineTrans, HomMat2D, 'nearest_neighbor')</l>
+<l>reduce_domain (ImageAffinTrans, RegionAffineTrans, ImageReduced)</l>
+<c></c>
+<c></c>
+<c>*字符分割</c>
+<l>rgb1_to_gray (ImageReduced, GrayImage)</l>
+<c></c>
+<l>invert_image (GrayImage, ImageInvert)</l>
+<l>threshold (GrayImage, Regions1, 215, 255)</l>
+<c></c>
+<l>connection (Regions1, ConnectedRegions1)</l>
+<l>select_shape (ConnectedRegions1, SelectedRegions, ['area','height'], 'and', [460.55,57.89], [2000,64.679])</l>
+<c></c>
+<c></c>
+<c>*字符识别</c>
+<l>read_ocr_class_mlp ('Industrial_0-9A-Z_NoRej.omc', OCRHandle)</l>
+<l>do_ocr_multi_class_mlp (SelectedRegions, ImageInvert, OCRHandle, Class, Confidence)</l>
+<c></c>
+<l>smallest_rectangle1 (SelectedRegions, Row11, Column1, Row2, Column21)</l>
+<l>count_obj (SelectedRegions, NumberFinal)</l>
+<l>for i := 1 to NumberFinal by 1</l>
+<l>    disp_message (WindowHandle, Class[i - 1], 'image', Row2[i - 1], Column1[i - 1], 'green', 'false')</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
