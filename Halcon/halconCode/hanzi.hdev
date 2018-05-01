@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image2, 'D:/Study/Code/MyCode_cpp/Halcon/halconCode/汉字识别.jpg')</l>
+<l>rgb1_to_gray (Image2, GrayImage)</l>
+<c></c>
+<c></c>
+<c>*预处理</c>
+<c>*2 灰度处理 使用灰度直方图的缩放</c>
+<l>scale_image (GrayImage, ImageScaled1, 4.04762, -101)</l>
+<c>*3 字符分割（1）几何校正（2）分割，让每个字体形成一个联通域</c>
+<l>threshold (ImageScaled1, Regions, 0, 137)</l>
+<l>connection (Regions, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'row', 'and', 361.78, 628.94)</l>
+<l>fill_up (SelectedRegions, RegionFillUp)</l>
+<l>dilation_circle(RegionFillUp, RegionDilation, 6)</l>
+<l>select_shape (RegionDilation, SelectedRegions1, ['row','column','row'], 'and', [393.58,255.96,384.4], [621.1,639.45,624.77])</l>
+<l>union1 (SelectedRegions1, RegionUnion)</l>
+<l>shape_trans (RegionUnion, RegionTrans, 'rectangle2')</l>
+<c></c>
+<l>orientation_region (RegionTrans, Phi)</l>
+<l>area_center (RegionTrans, Area, Row, Column)</l>
+<l>vector_angle_to_rigid (Row, Column, Phi, Row, Column, rad(0), HomMat2D)</l>
+<l>affine_trans_image (Image2, ImageAffinTrans, HomMat2D, 'constant', 'false')</l>
+<l>affine_trans_region (RegionTrans, RegionAffineTrans, HomMat2D, 'nearest_neighbor')</l>
+<l>reduce_domain (ImageAffinTrans, RegionAffineTrans, ImageReduced)</l>
+<c></c>
+<c></c>
+<l>rgb1_to_gray (ImageReduced, GrayImage1)</l>
+<l>threshold (GrayImage1, Regions1, 0, 59)</l>
+<l>connection (Regions1, ConnectedRegions1)</l>
+<l>select_shape (ConnectedRegions1, SelectedRegions2, 'row', 'and', 533.03, 1000)</l>
+<c></c>
+<l>union1 (SelectedRegions2, RegionUnion1)</l>
+<l>shape_trans (RegionUnion1, RegionTrans1, 'rectangle1')</l>
+<l>reduce_domain (GrayImage1, RegionTrans1, ImageReduced1)</l>
+<c></c>
+<l>rgb1_to_gray (ImageReduced1, GrayImage2)</l>
+<l>threshold (GrayImage2, Regions2, 28, 63)</l>
+<l>dilation_circle (Regions2, RegionDilation2, 2.5)</l>
+<l>union1 (RegionDilation2, RegionUnion2)</l>
+<l>connection (RegionUnion2, ConnectedRegions2)</l>
+<l>opening_circle (ConnectedRegions2, RegionOpening, 5.5)</l>
+<l>union1 (RegionOpening, RegionUnion3)</l>
+<l>dilation_circle (RegionUnion3, RegionDilation1, 1.5)</l>
+<l>connection (RegionDilation1, ConnectedRegions3)</l>
+<l>intersection (ConnectedRegions3, Regions2, RegionIntersection)</l>
+<l>sort_region (RegionIntersection, SortedRegions1, 'first_point', 'true', 'column')</l>
+<l>count_obj (SortedRegions1, Number1)</l>
+<c></c>
+<c></c>
+<l>for Index := 1 to Number1 by 1</l>
+<l>    select_obj (SortedRegions1, ObjectSelected, Index)</l>
+<l>endfor</l>
+<c></c>
+<l>words:=['看','这','本','就','够','了']</l>
+<c>*.trf文件是讲字体和字符关联起来  可通过ORC训练浏览器生成变异关联</c>
+<l>transFile:='D://Study//Code//MyCode_cpp//Halcon//halconCode//word0.trf'</l>
+<l>for Index1 := 1 to Number1 by 1</l>
+<l>    select_obj (SortedRegions1, ObjectSelected1, Index1)</l>
+<l>    append_ocr_trainf (ObjectSelected1, ImageAffinTrans, words[Index1-1], transFile)</l>
+<c>    </c>
+<l>endfor</l>
+<c>*.omc是经过训练的</c>
+<l> FontFile:='D://Study//Code//MyCode_cpp//Halcon//halconCode//word.omc'</l>
+<l> read_ocr_trainf_names (transFile, CharacterNames, CharacterCount)</l>
+<c></c>
+<l> NumHidden:=20</l>
+<c> *1 创建神经网络分类器</c>
+<l> create_ocr_class_mlp (8, 10, 'constant', 'default', CharacterNames, 80, 'none', 10, 42, OCRHandle)</l>
+<c> </c>
+<c> *2训练分类器</c>
+<l> trainf_ocr_class_mlp (OCRHandle, transFile, 200, 1, 0.01, Error, ErrorLog)</l>
+<c> *保存文件</c>
+<l> write_ocr_class_mlp (OCRHandle, FontFile)</l>
+<c> *清除句柄</c>
+<l> clear_ocr_class_mlp (OCRHandle)</l>
+<c> *识别文字</c>
+<l> read_ocr_class_mlp ('D://Study//Code//MyCode_cpp//Halcon//halconCode//word.omc', OCRHandle1)</l>
+<l> do_ocr_multi_class_mlp (SortedRegions1, ImageReduced1, OCRHandle1, Class, Confidence)</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
