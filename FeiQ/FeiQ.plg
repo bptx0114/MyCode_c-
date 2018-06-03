@@ -1,0 +1,93 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: FeiQ - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x804 /fo"Debug/FeiQ.res" /d "_DEBUG" /d "_AFXDLL" "C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\FeiQ.rc"" 
+Creating temporary file "C:\Users\FIRE\AppData\Local\Temp\RSP1FBF.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/FeiQ.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\ChatView.cpp"
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\FeiQ.cpp"
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\FileClient.cpp"
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\FileRecvDlg.cpp"
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\FileSendDlg.cpp"
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\FileServer.cpp"
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\FileThread.cpp"
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\MainFrm.cpp"
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\UserClient.cpp"
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\UserServer.cpp"
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\UserView.cpp"
+]
+Creating command line "cl.exe @C:\Users\FIRE\AppData\Local\Temp\RSP1FBF.tmp" 
+Creating temporary file "C:\Users\FIRE\AppData\Local\Temp\RSP1FD0.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/FeiQ.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\Users\FIRE\Desktop\01_teachingCode\12_MFC\FeiQ\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\Users\FIRE\AppData\Local\Temp\RSP1FD0.tmp" 
+Creating temporary file "C:\Users\FIRE\AppData\Local\Temp\RSP1FD1.tmp" with contents
+[
+/nologo /subsystem:windows /incremental:yes /pdb:"Debug/FeiQ.pdb" /debug /machine:I386 /out:"Debug/FeiQ.exe" /pdbtype:sept 
+.\Debug\ChatView.obj
+.\Debug\FeiQ.obj
+.\Debug\FileClient.obj
+.\Debug\FileRecvDlg.obj
+.\Debug\FileSendDlg.obj
+.\Debug\FileServer.obj
+.\Debug\FileThread.obj
+.\Debug\MainFrm.obj
+.\Debug\StdAfx.obj
+.\Debug\UserClient.obj
+.\Debug\UserServer.obj
+.\Debug\UserView.obj
+.\Debug\FeiQ.res
+]
+Creating command line "link.exe @C:\Users\FIRE\AppData\Local\Temp\RSP1FD1.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+ChatView.cpp
+FeiQ.cpp
+FileClient.cpp
+FileRecvDlg.cpp
+FileSendDlg.cpp
+FileServer.cpp
+FileThread.cpp
+MainFrm.cpp
+UserClient.cpp
+UserServer.cpp
+UserView.cpp
+Generating Code...
+Linking...
+Creating temporary file "C:\Users\FIRE\AppData\Local\Temp\RSP289C.tmp" with contents
+[
+/nologo /o"Debug/FeiQ.bsc" 
+.\Debug\StdAfx.sbr
+.\Debug\ChatView.sbr
+.\Debug\FeiQ.sbr
+.\Debug\FileClient.sbr
+.\Debug\FileRecvDlg.sbr
+.\Debug\FileSendDlg.sbr
+.\Debug\FileServer.sbr
+.\Debug\FileThread.sbr
+.\Debug\MainFrm.sbr
+.\Debug\UserClient.sbr
+.\Debug\UserServer.sbr
+.\Debug\UserView.sbr]
+Creating command line "bscmake.exe @C:\Users\FIRE\AppData\Local\Temp\RSP289C.tmp"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+FeiQ.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
