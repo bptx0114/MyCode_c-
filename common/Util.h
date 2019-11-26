@@ -14,8 +14,8 @@ namespace Util
 
 	CString GetModulePath(HMODULE hModule);
 	CString GetModulePathA();
-
-
+	void SetIniStr(const CString &setion, const CString &key, const CString &value, const CString &file);
+	CString GetIniStr(const CString &section, const CString &key, const CString &file);
 
 }
 

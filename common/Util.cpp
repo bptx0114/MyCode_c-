@@ -50,7 +50,18 @@ namespace Util
 		return path;
 	}
 
+	void SetIniStr(const CString &setion, const CString &key, const CString &value, const CString &file)
+	{
+		::WritePrivateProfileString(STR(setion), STR(key), STR(value), STR(file));
+	}
 
+	CString GetIniStr(const CString &section, const CString &key, const CString &file)
+	{
+		TCHAR szValue[1024] = { 0 };
+		DWORD dwSize = 1023;
+		::GetPrivateProfileString(STR(section), STR(key), _T(""), szValue, dwSize, STR(file));
+		return szValue;
+	}
 }
 
 namespace Env
